@@ -6,6 +6,23 @@ import javax.sound.sampled.*;
  * for signal processing and avoid saturation effects. Samples are 16 bit wide in this implementation. */
  public class AudioSignal {
 
+    public static void main(String[] args) {
+        AudioFormat audioFormat = new AudioFormat(8000, 16, 1, true, true);
+        try {
+            TargetDataLine audioimput  = AudioSystem.getTargetDataLine(audioFormat);
+            SourceDataLine audiooutput = AudioSystem.getSourceDataLine(audioFormat);
+            audioimput.open();
+            audioimput.start();
+            audiooutput.open();
+            audiooutput.start();
+            AudioSignal audio = new AudioSignal(20000);
+            audio.recordFrom(audioimput);
+            audio.playTo(audiooutput);
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
     public double[] getSampleBuffer() {
         return sampleBuffer;
     }
@@ -71,17 +88,6 @@ import javax.sound.sampled.*;
 
 
 
-        public void main() {
-            AudioFormat audioFormat = new AudioFormat(8000, 8, 1, true, true);
-            try {
-                TargetDataLine audioimput = AudioSystem.getTargetDataLine(audioFormat);
-                SourceDataLine audiooutput = AudioSystem.getSourceDataLine(audioFormat);
-                AudioSignal audio = new AudioSignal(40);
-                audio.recordFrom(audioimput);
-                audio.playTo(audiooutput);
-            } catch (LineUnavailableException e) {
-                e.printStackTrace();
-            }
-        }
+
 
          }

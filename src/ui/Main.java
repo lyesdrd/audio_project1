@@ -49,5 +49,6 @@ public class Main extends Application {
              // ici en utilisant g.getChildren().add(...) vous pouvez ajouter tout ´el´ement graphique souhait´e de type Node
              return g;
              }
+
  }
 
