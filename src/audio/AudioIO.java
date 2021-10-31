@@ -1,6 +1,7 @@
 package audio;
 import java.io.Console;
 import javax.sound.sampled.*;
+import java.util.Scanner;
 import java.lang.annotation.Target;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
@@ -55,10 +56,10 @@ public class AudioIO {
 
     public static void main(String[] args) {
         printAudioMixers();
-        Console console = System.console();
-        String mixerinput = console.readLine();
-        String mixeroutput =console.readLine();
-        int samplerate = Integer.parseInt(console.readLine());
+        Scanner scan = new Scanner(System.in);
+        String mixerinput = scan.next();
+        String mixeroutput =scan.next();
+        int samplerate = scan.nextInt();
         try {
             TargetDataLine tar = obtainAudioInput(mixerinput, samplerate);
             try {
