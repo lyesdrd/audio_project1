@@ -57,8 +57,8 @@ public class AudioIO {
     public static void main(String[] args) {
         printAudioMixers();
         Scanner scan = new Scanner(System.in);
-        String mixerinput = scan.next();
-        String mixeroutput =scan.next();
+        String mixerinput = scan.nextLine();
+        String mixeroutput = scan.nextLine();
         int samplerate = scan.nextInt();
         try {
             TargetDataLine tar = obtainAudioInput(mixerinput, samplerate);
