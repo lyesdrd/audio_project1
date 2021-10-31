@@ -1,6 +1,7 @@
 package audio;
-
+import java.io.Console;
 import javax.sound.sampled.*;
+import java.lang.annotation.Target;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
@@ -32,24 +33,54 @@ public class AudioIO {
      * @param mixerName a string that matches one of the available mixers.
      * @see AudioSystem.getMixerInfo() which provides a list of all mixers on your system.
      */
-   public static TargetDataLine obtainAudioInput(String mixerName, int sampleRate) {
+    // if no line match the audio format then throws an exception that we have to catch later
+   public static TargetDataLine obtainAudioInput(String mixerName, int sampleRate) throws LineUnavailableException {
        Mixer.Info mixerinfo = AudioIO.getMixerInfo(mixerName);
        Mixer mixer = AudioSystem.getMixer(mixerinfo);
        AudioFormat audioFormat = new AudioFormat(sampleRate, 16, 1, true, true);
-       try {
             return AudioSystem.getTargetDataLine(audioFormat, mixerinfo);
-       } catch (LineUnavailableException e) {
-           e.printStackTrace();
-           AudioSystem.getTargetDataLine(audioFormat);
        }
-   }
+
 
     /**
      * Return a line that's appropriate for playing sound to a loudspeaker.
      */
-    public static SourceDataLine obtainAudioOutput(String mixerName, int sampleRate) { ...}
+    // if no line match the audio format then throws an exception that we have to catch later
+    public static SourceDataLine obtainAudioOutput(String mixerName, int sampleRate) throws LineUnavailableException {
+        Mixer.Info mixerinfo = AudioIO.getMixerInfo(mixerName);
+        Mixer mixer = AudioSystem.getMixer(mixerinfo);
+        AudioFormat audioFormat = new AudioFormat(sampleRate, 16, 1, true, true);
+        return AudioSystem.getSourceDataLine(audioFormat, mixerinfo);
+    }
 
     public static void main(String[] args) {
-        AudioFormat audioFormat = new AudioFormat(8000, 16, 1, true, true);
+        printAudioMixers();
+        Console console = System.console();
+        String mixerinput = console.readLine();
+        String mixeroutput =console.readLine();
+        int samplerate = Integer.parseInt(console.readLine());
+        try {
+            TargetDataLine tar = obtainAudioInput(mixerinput, samplerate);
+            try {
+                SourceDataLine src = obtainAudioOutput(mixeroutput, samplerate);
+                AudioSignal audio= new AudioSignal(20000);
+                tar.open();
+                tar.start();
+                src.open();
+                src.start();
+                audio.recordFrom(tar);
+                audio.playTo(src);
+            }
+            catch (Exception e){
+                System.out.println("line do not match the audio format");
+            }
+        }
+        catch (Exception e ) {
+            System.out.println("line do not match the audio format");
+        }
+
+
+
+
     }
 }
