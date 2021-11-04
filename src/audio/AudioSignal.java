@@ -6,29 +6,23 @@ import javax.sound.sampled.*;
  * for signal processing and avoid saturation effects. Samples are 16 bit wide in this implementation. */
  public class AudioSignal {
 
-    public static void main(String[] args) {
-        AudioFormat audioFormat = new AudioFormat(8000, 16, 1, true, true);
-        try {
-            TargetDataLine audioimput  = AudioSystem.getTargetDataLine(audioFormat);
-            SourceDataLine audiooutput = AudioSystem.getSourceDataLine(audioFormat);
-            audioimput.open();
-            audioimput.start();
-            audiooutput.open();
-            audiooutput.start();
-            AudioSignal audio = new AudioSignal(20000);
-            audio.recordFrom(audioimput);
-            audio.playTo(audiooutput);
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
+        private double[] sampleBuffer; // floating point representation of audio samples
+        private double dBlevel; // current signal level
+
+
+
+
+
+        public void affiche(){
+            for (int i=0;i<sampleBuffer.length; i++) {
+                System.out.println(sampleBuffer[i]);
+            }
         }
-    }
 
-    public double[] getSampleBuffer() {
-        return sampleBuffer;
-    }
 
-    private double[] sampleBuffer; // floating point representation of audio samples
-         private double dBlevel; // current signal level
+        public double[] getSampleBuffer() {
+            return sampleBuffer;
+        }
 
          /** Construct an AudioSignal that may contain up to "frameSize" samples.
         * @param frameSize the number of samples in one audio frame */
@@ -47,10 +41,10 @@ import javax.sound.sampled.*;
          public boolean recordFrom(TargetDataLine audioInput) {
          byte[] byteBuffer = new byte[sampleBuffer.length*2]; // 16 bit samples
         if (audioInput.read(byteBuffer, 0, byteBuffer.length)==-1) return false;
-        for (int i=0; i<sampleBuffer.length; i++)
+             for (int i=0; i<sampleBuffer.length; i++)
              sampleBuffer[i] = ((byteBuffer[2*i]<<8)+byteBuffer[2*i+1]) / 32768.0; // big endian
          //TODO : dBlevel = update signal level in dB here ...
-         return true;
+             return true;
          }
 
          /** Plays the buffer content to the given output.
@@ -86,6 +80,24 @@ import javax.sound.sampled.*;
           }
          // Can be implemented much later: Complex[] computeFFT()
 
+
+    public static void main(String[] args) {
+        AudioFormat audioFormat = new AudioFormat(8000, 16, 1, true, true);
+        try {
+            TargetDataLine audioimput  = AudioSystem.getTargetDataLine(audioFormat);
+            SourceDataLine audiooutput = AudioSystem.getSourceDataLine(audioFormat);
+            audioimput.open();
+            audioimput.start();
+            audiooutput.open();
+            audiooutput.start();
+            AudioSignal audio = new AudioSignal(20000);
+            audio.recordFrom(audioimput);
+            audio.affiche();
+            audio.playTo(audiooutput);
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
