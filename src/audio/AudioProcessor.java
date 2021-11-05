@@ -9,7 +9,13 @@ public class AudioProcessor implements Runnable {
          private AudioSignal inputSignal, outputSignal;
          private TargetDataLine audioInput;
          private SourceDataLine audioOutput;
-         private boolean isThreadRunning; // makes it possible to "terminate" thread
+        private boolean isThreadRunning; // makes it possible to "terminate" thread
+
+    public void setThreadRunning(boolean threadRunning) {
+        isThreadRunning = threadRunning;
+    }
+
+
 
          /** Creates an AudioProcessor that takes input from the given TargetDataLine, and plays back
             * to the given SourceDataLine.

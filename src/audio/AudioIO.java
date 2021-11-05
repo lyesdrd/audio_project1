@@ -105,7 +105,9 @@ public class AudioIO {
         new Thread(as).start();
         return as;
     }
-
+    public static void continuet(AudioProcessor as){
+        as.run();
+    }
     public static void stopAudioProcessing(AudioProcessor as){
         as.terminateAudioThread();
     }

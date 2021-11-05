@@ -53,8 +53,9 @@ public class Main extends Application {
          private Node createToolbar(){
 
              Button buttonstart = new Button("start");
+             Button buttoncontinue = new Button("continue");
              Button buttonstop = new Button("stop");
-             ToolBar tb = new ToolBar(buttonstart,buttonstop, new Separator(), new Label("input mixer"));
+             ToolBar tb = new ToolBar(buttonstart,buttoncontinue,buttonstop, new Separator(), new Label("input mixer"));
 
 
              ComboBox<String> cbinput = new ComboBox<>();
@@ -93,8 +94,11 @@ public class Main extends Application {
                  }
              });
              buttonstop.setOnAction(event -> AudioIO.stopAudioProcessing(as));
+             buttoncontinue.setOnAction(event -> AudioIO.continuet(as));
+
              return tb;
-             }
+
+        }
 
          private Node createStatusbar(){
              HBox statusbar = new HBox();
