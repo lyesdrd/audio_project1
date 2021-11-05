@@ -1,10 +1,7 @@
 package audio;
-import java.io.Console;
 import javax.sound.sampled.*;
 import java.util.Scanner;
-import java.lang.annotation.Target;
 import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
 
 /** A collection of static utilities related to the audio system. */
 public class AudioIO {
@@ -53,7 +50,7 @@ public class AudioIO {
         AudioFormat audioFormat = new AudioFormat(sampleRate, 16, 1, true, true);
         return AudioSystem.getSourceDataLine(audioFormat, mixerinfo);
     }
-
+/*
     public static void main(String[] args) {
         printAudioMixers();
         Scanner scan = new Scanner(System.in);
@@ -79,9 +76,37 @@ public class AudioIO {
         catch (Exception e ) {
             System.out.println("line do not match the audio format");
         }
+    }
+*/
+    public static void main(String[] args) {
+        printAudioMixers();
+        Scanner scan = new Scanner(System.in);
+        String mixerinput = scan.nextLine();
+        String mixeroutput = scan.nextLine();
+        int samplerate = scan.nextInt();
+        int frameSize = scan.nextInt();
+        try {
+            AudioProcessor as = startAudioProcessing(mixerinput, mixeroutput, samplerate,  frameSize);
+
+            }
+        catch (Exception e ) {
+            System.out.println("line do not match the audio format");
+        }
+
+    }
 
 
 
+    public static AudioProcessor startAudioProcessing(String inputMixer, String outputMixer, int sampleRate, int frameSize) throws LineUnavailableException {
+        TargetDataLine inLine = obtainAudioInput(inputMixer, sampleRate);
+        SourceDataLine outLine = obtainAudioOutput(outputMixer, sampleRate);
+        AudioProcessor as = new AudioProcessor(inLine, outLine, frameSize);
+        inLine.open(); inLine.start(); outLine.open(); outLine.start();
+        new Thread(as).start();
+        return as;
+    }
 
+    public static void stopAudioProcessing(AudioProcessor as){
+        as.terminateAudioThread();
     }
 }

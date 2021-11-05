@@ -30,7 +30,7 @@ public class AudioProcessor implements Runnable {
                 while (isThreadRunning) {
                     inputSignal.recordFrom(audioInput);
 
-                    // your job: copy inputSignal to outputSignal with some audio effect
+                    outputSignal.setFrom(inputSignal);
 
                     outputSignal.playTo(audioOutput);
              }
