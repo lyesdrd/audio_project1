@@ -3,6 +3,7 @@ package thandler;
 
 
 import audio.AudioProcessor;
+import javafx.animation.AnimationTimer;
 
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ public class ThreadHandler {
 
     private Thread threadSon;
     private boolean isthreadsondead;
-    private Thread threadAffichage;
+    private AnimationTimer timer;
 
     public ThreadHandler(){}
 
@@ -24,6 +25,15 @@ public class ThreadHandler {
 
     public Thread getThreadSon() {
         return threadSon;
+    }
+
+    public void startThread( ){
+        threadSon.start();
+        /**timer.start();*/
+    }
+
+    public void setTimer(AnimationTimer t){
+        this.timer=t;
     }
 
     public void setThreadSon(Thread threadSon) {
