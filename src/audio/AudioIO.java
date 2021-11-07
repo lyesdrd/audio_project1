@@ -29,7 +29,7 @@ public class AudioIO {
      * TargetDataLine line = obtainInputLine("USB Audio Device", 8000);
      *
      * @param mixerName a string that matches one of the available mixers.
-     * @see AudioSystem.getMixerInfo() which provides a list of all mixers on your system.
+     * @see //AudioSystem.getMixerInfo() which provides a list of all mixers on your system.
      */
     // if no line match the audio format then throws an exception that we have to catch later
    public static TargetDataLine obtainAudioInput(String mixerName, int sampleRate) throws LineUnavailableException {
@@ -102,7 +102,8 @@ public class AudioIO {
         SourceDataLine outLine = obtainAudioOutput(outputMixer, sampleRate);
         AudioProcessor as = new AudioProcessor(inLine, outLine, frameSize);
         inLine.open(); inLine.start(); outLine.open(); outLine.start();
-        new Thread(as).start();
+        Thread t = new  Thread(as);
+        t.start();
         return as;
     }
     public static void continuet(AudioProcessor as){

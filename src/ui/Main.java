@@ -78,7 +78,7 @@ public class Main extends Application {
                         tb.getItems().add(new Separator());
 
              TextField samplerate =new TextField("");
-                        tb.getItems().add(new Label("framerate"));
+                        tb.getItems().add(new Label("samplerate"));
                         tb.getItems().add(samplerate);
                         tb.getItems().add(new Separator());
 
