@@ -6,12 +6,13 @@ import audio.AudioProcessor;
 import javafx.animation.AnimationTimer;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class ThreadHandler {
 
     private Thread threadSon;
     private boolean isthreadsondead;
-    private AnimationTimer timer;
+
 
     public ThreadHandler(){}
 
@@ -27,14 +28,12 @@ public class ThreadHandler {
         return threadSon;
     }
 
-    public void startThread( ){
+    public void startThread(/*AnimationTimer timer*/){
         threadSon.start();
-        /**timer.start();*/
+        //timer.start();
     }
 
-    public void setTimer(AnimationTimer t){
-        this.timer=t;
-    }
+
 
     public void setThreadSon(Thread threadSon) {
         this.threadSon = threadSon;

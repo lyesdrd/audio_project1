@@ -8,6 +8,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -27,10 +28,14 @@ public class Main2 extends Application{
         private int frameSize ;
         private int sampleRate;
         private ThreadHandler tHand= new ThreadHandler();
-        private SignalView chart1 ;
-        /**AnimationTimer tim =new AnimationTimer() {
-             @Override
-             public void handle(long l) { chart1.updateData(as.getInputSignal().getSampleBuffer()); }  }; */
+        SignalView chart1 = new SignalView(new NumberAxis(),new NumberAxis());
+        /**AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                refresh();
+            }
+        };*/
+
 
 
 
@@ -43,15 +48,12 @@ public class Main2 extends Application{
             this.frameSize= Integer.parseInt(framesize);
             try {
                 this.tHand.setThreadSon(AudioIO2.createThread(inline,outline,sampleRate,frameSize,as));
-                //this.tHand.setTimer(tim);           // initialisation du thread son et du timer pour l'affichage en meme temps
             } catch (LineUnavailableException e) {
                 e.printStackTrace();
             }
         }
 
-        public void setAs (AudioProcessor as) {
-            this.as = as;
-        }
+
 
 
         @Override
@@ -107,8 +109,8 @@ public class Main2 extends Application{
 
 
             /**Action des boutons de gestion d'app */
-            buttonstart.setOnAction(event -> {tHand.startThread(); });
-            buttonstop.setOnAction(event -> stop(tHand,as/**,tim*/));
+            buttonstart.setOnAction(event -> {tHand.startThread(/*timer*/); });
+            buttonstop.setOnAction(event -> stop(tHand,as));
 
             return tb;
 
@@ -121,20 +123,23 @@ public class Main2 extends Application{
         }
 
         private Node createMainContent(){
+            final LineChart<Number, Number>[] myline = new LineChart[]{new LineChart<>(new NumberAxis(), new NumberAxis())};//juste pour tester psk ca marche pas avec Signal View
+            Button buttontrace = new Button("tracer");                                                                   //juste pour tester
+            buttontrace.setOnAction(event -> {                                                                              //juste pour tester
+                myline[0] = Crealinechart.create(as.getInputSignal().getSampleBuffer());});                                 //juste pour tester
+
             Group g = new Group();  // ici en utilisant g.getChildren().add(...) vous pouvez ajouter tout element graphique souhaite de type Node
-                NumberAxis xAxis = new NumberAxis();
-                xAxis.setLabel("n");
-                NumberAxis yAxis = new NumberAxis();
-                yAxis.setLabel("s []");
-                chart1= new SignalView(xAxis,yAxis);
-                chart1.setXaxis(xAxis);
-                chart1.setYaxis(yAxis);
-                chart1.makeChart();
-            g.getChildren().add(chart1);
+            g.getChildren().add(myline[0]);                                                                                 //juste pour tester
+            g.getChildren().add(buttontrace);                                                                                //juste pour tester
             return g;
         }
 
-        public void stop(ThreadHandler t,AudioProcessor as/**,AnimationTimer timer*/){
+        public void refresh(){
+            chart1.updateData(as.getInputSignal().getSampleBuffer()); //on update les valeurs du graphque à l'aide du signal d'entré
+        }
+
+
+        public void stop(ThreadHandler t,AudioProcessor as){
             AudioIO2.stopAudioProcessing(tHand,as);
             //timer.stop();
         }
