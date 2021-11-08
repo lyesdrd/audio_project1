@@ -38,7 +38,7 @@ public class SignalView extends LineChart<Number,Number>  {
         dataSeries1.setName("entré");
 
         for (int i=0;i <buffer.length;i++){
-            dataSeries1.getData().add(new XYChart.Data<>( i, 1/(i+1)));
+            dataSeries1.getData().add(new XYChart.Data<>( i, buffer[i]));
         }
         getData().add(dataSeries1);
 
