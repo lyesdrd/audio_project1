@@ -29,12 +29,12 @@ public class Main2 extends Application{
         private int sampleRate;
         private ThreadHandler tHand= new ThreadHandler();
         SignalView chart1 = new SignalView(new NumberAxis(),new NumberAxis());
-        /**AnimationTimer timer = new AnimationTimer() {
+        AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 refresh();
             }
-        };*/
+        };
 
 
 
@@ -109,7 +109,7 @@ public class Main2 extends Application{
 
 
             /**Action des boutons de gestion d'app */
-            buttonstart.setOnAction(event -> {tHand.startThread(/*timer*/); });
+            buttonstart.setOnAction(event -> {start(); });
             buttonstop.setOnAction(event -> stop(tHand,as));
 
             return tb;
@@ -123,14 +123,15 @@ public class Main2 extends Application{
         }
 
         private Node createMainContent(){
-            final LineChart<Number, Number>[] myline = new LineChart[]{new LineChart<>(new NumberAxis(), new NumberAxis())};//juste pour tester psk ca marche pas avec Signal View
-            Button buttontrace = new Button("tracer");                                                                   //juste pour tester
-            buttontrace.setOnAction(event -> {                                                                              //juste pour tester
-                myline[0] = Crealinechart.create(as.getInputSignal().getSampleBuffer());});                                 //juste pour tester
+            //final LineChart<Number, Number>[] myline = new LineChart[]{new LineChart<>(new NumberAxis(), new NumberAxis())};//juste pour tester psk ca marche pas avec Signal View
+            //Button buttontrace = new Button("tracer");                                                                   //juste pour tester
+            //buttontrace.setOnAction(event -> {                                                                              //juste pour tester
+            //myline[0] = Crealinechart.create(as.getInputSignal().getSampleBuffer());});                                 //juste pour tester
 
             Group g = new Group();  // ici en utilisant g.getChildren().add(...) vous pouvez ajouter tout element graphique souhaite de type Node
-            g.getChildren().add(myline[0]);                                                                                 //juste pour tester
-            g.getChildren().add(buttontrace);                                                                                //juste pour tester
+            //g.getChildren().add(myline[0]);                                                                                 //juste pour tester
+            //g.getChildren().add(buttontrace);                                                                                //juste pour tester
+            g.getChildren().add(chart1);
             return g;
         }
 
@@ -141,9 +142,12 @@ public class Main2 extends Application{
 
         public void stop(ThreadHandler t,AudioProcessor as){
             AudioIO2.stopAudioProcessing(tHand,as);
-            //timer.stop();
+            timer.stop();
         }
-
+        public void start(){
+                tHand.startThread(/*timer*/);
+                timer.start();
+    }
     }
 
 
