@@ -5,6 +5,7 @@ import audio.AudioIO2;
 import audio.AudioProcessor;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -13,12 +14,18 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import thandler.ThreadHandler;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import java.util.Arrays;
+
+
+import javafx.scene.*;
+import javafx.scene.paint.*;
+import javafx.scene.canvas.*;
 
 public class Main2 extends Application{
 
@@ -29,6 +36,7 @@ public class Main2 extends Application{
         private int sampleRate;
         private ThreadHandler tHand= new ThreadHandler();
         SignalView chart1 = new SignalView(new NumberAxis(),new NumberAxis("s",-1.,1.,0.1));
+        VuMeter vu =new VuMeter(800,800);
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -63,6 +71,9 @@ public class Main2 extends Application{
                 root.setTop(createToolbar());
                 root.setBottom(createStatusbar());
                 root.setCenter(createMainContent());
+                root.setLeft(createleftContent());
+                root.setAlignment(root.getLeft(), Pos.CENTER);
+                root.setAlignment(root.getCenter(), Pos.BOTTOM_LEFT);
                 Scene scene = new Scene(root,1500,800);
                 primaryStage.setScene(scene);
                 primaryStage.setTitle("The JavaFX audio processor");
@@ -123,20 +134,21 @@ public class Main2 extends Application{
         }
 
         private Node createMainContent(){
-            //final LineChart<Number, Number>[] myline = new LineChart[]{new LineChart<>(new NumberAxis(), new NumberAxis())};//juste pour tester psk ca marche pas avec Signal View
-            //Button buttontrace = new Button("tracer");                                                                   //juste pour tester
-            //buttontrace.setOnAction(event -> {                                                                              //juste pour tester
-            //myline[0] = Crealinechart.create(as.getInputSignal().getSampleBuffer());});                                 //juste pour tester
-
             Group g = new Group();  // ici en utilisant g.getChildren().add(...) vous pouvez ajouter tout element graphique souhaite de type Node
-            //g.getChildren().add(myline[0]);                                                                                 //juste pour tester
-            //g.getChildren().add(buttontrace);                                                                                //juste pour tester
-            g.getChildren().add(chart1);
+            g.getChildren().add(vu);
             return g;
         }
 
+        private Node createleftContent(){
+            Group g = new Group();  // ici en utilisant g.getChildren().add(...) vous pouvez ajouter tout element graphique souhaite de type Node
+            chart1.setTitle("Audio signal graph");
+            g.getChildren().add(chart1);
+            return g;
+        }
         public void refresh(){
-            chart1.updateData(as.getInputSignal().getSampleBuffer()); //on update les valeurs du graphque à l'aide du signal d'entré
+            chart1.updateData(as.getInputSignal().getSampleBuffer());
+            vu.update(as.getInputSignal().getdBlevel());
+            //on update les valeurs du graphque à l'aide du signal d'entré
         }
 
 

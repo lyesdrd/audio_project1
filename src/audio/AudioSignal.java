@@ -7,7 +7,12 @@ import javax.sound.sampled.*;
  public class AudioSignal {
 
         private double[] sampleBuffer; // floating point representation of audio samples
-        private double dBlevel; // current signal level
+
+    public double getdBlevel() {
+        return dBlevel;
+    }
+
+    private double dBlevel=0; // current signal level
 
 
 
@@ -43,7 +48,7 @@ import javax.sound.sampled.*;
         if (audioInput.read(byteBuffer, 0, byteBuffer.length)==-1) return false;
              for (int i=0; i<sampleBuffer.length; i++)
              sampleBuffer[i] = ((byteBuffer[2*i]<<8)+byteBuffer[2*i+1]) / 32768.0; // big endian
-         //TODO : dBlevel = update signal level in dB here ...
+             updatedBLevel();
              return true;
          }
 
@@ -98,7 +103,14 @@ import javax.sound.sampled.*;
             e.printStackTrace();
         }
     }
+        public void updatedBLevel(){
+            double rms=0;
+             for(double sample : sampleBuffer) {
+                rms += sample * sample;
+            }
 
+            this.dBlevel= (float)Math.sqrt(rms / sampleBuffer.length);//formule de la puissance d'un signal numérique
+        }
 
 
 

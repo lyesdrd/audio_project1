@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class SignalView extends LineChart<Number,Number>  {
 
 
-    private XYChart.Series dataSeries;
+    private  XYChart.Series dataSeries;
     private double[] range=new double[201];
 
 
