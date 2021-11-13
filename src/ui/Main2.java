@@ -28,7 +28,7 @@ public class Main2 extends Application{
         private int frameSize ;
         private int sampleRate;
         private ThreadHandler tHand= new ThreadHandler();
-        SignalView chart1 = new SignalView(new NumberAxis(),new NumberAxis());
+        SignalView chart1 = new SignalView(new NumberAxis(),new NumberAxis("s",-1.,1.,0.1));
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
