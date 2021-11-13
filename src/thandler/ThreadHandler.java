@@ -16,17 +16,17 @@ public class ThreadHandler {
 
     public ThreadHandler(){}
 
-    public void setIsthreadsondead(boolean isthreadsondead) {
-        this.isthreadsondead = isthreadsondead;
-    }
+/*            public void setIsthreadsondead(boolean isthreadsondead) {
+                this.isthreadsondead = isthreadsondead;
+            }
 
-    public boolean getisIsthreadsondead() {
-        return isthreadsondead;
-    }
+            public boolean getisIsthreadsondead() {
+                return isthreadsondead;
+            }
 
-    public Thread getThreadSon() {
-        return threadSon;
-    }
+            public Thread getThreadSon() {
+                return threadSon;
+            }                       */
 
     public void startThread(/*AnimationTimer timer*/){
         threadSon.start();

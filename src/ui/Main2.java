@@ -71,7 +71,7 @@ public class Main2 extends Application{
                 root.setTop(createToolbar());
                 root.setBottom(createStatusbar());
                 root.setCenter(createMainContent());
-                root.setLeft(createleftContent());
+                root.setLeft(createLeftContent());
                 root.setAlignment(root.getLeft(), Pos.CENTER);
                 root.setAlignment(root.getCenter(), Pos.BOTTOM_LEFT);
                 Scene scene = new Scene(root,1500,800);
@@ -139,7 +139,7 @@ public class Main2 extends Application{
             return g;
         }
 
-        private Node createleftContent(){
+        private Node createLeftContent(){
             Group g = new Group();  // ici en utilisant g.getChildren().add(...) vous pouvez ajouter tout element graphique souhaite de type Node
             chart1.setTitle("Audio signal graph");
             g.getChildren().add(chart1);
