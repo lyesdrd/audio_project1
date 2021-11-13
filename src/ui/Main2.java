@@ -113,14 +113,14 @@ public class Main2 extends Application{
             tb.getItems().add(new Separator());
 
             /**boutons validation des choix */
-            Button buttonvalider = new Button("valider");
+           /* Button buttonvalider = new Button("valider");
             buttonvalider.setOnAction(event -> setAll(cbinput.getValue(),cboutput.getValue(),framesize.getText(),samplerate.getText()));
-            tb.getItems().add(buttonvalider);
+            tb.getItems().add(buttonvalider); */
 
 
 
             /**Action des boutons de gestion d'app */
-            buttonstart.setOnAction(event -> {start(); });
+            buttonstart.setOnAction(event -> {start(cbinput.getValue(),cboutput.getValue(),framesize.getText(),samplerate.getText()); });
             buttonstop.setOnAction(event -> stop(tHand,as));
 
             return tb;
@@ -156,9 +156,11 @@ public class Main2 extends Application{
             AudioIO2.stopAudioProcessing(tHand,as);
             timer.stop();
         }
-        public void start(){
+        public void start(String cbinput,String cboutput,String framesize,String samplerate){
+                setAll(cbinput,cboutput,framesize,samplerate);
                 tHand.startThread(/*timer*/);
                 timer.start();
+
     }
     }
 

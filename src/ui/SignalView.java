@@ -20,7 +20,7 @@ public class SignalView extends LineChart<Number,Number>  {
     public SignalView(Axis<Number> axis, Axis<Number> axis1) {
         super(axis, axis1);
         dataSeries = new Series();
-        dataSeries.setName("entré");
+        dataSeries.setName("Audio Signal");
         getData().add(this.dataSeries);
         setHorizontalGridLinesVisible(false);
         setAnimated(false);
