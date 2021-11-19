@@ -32,8 +32,8 @@ public class Main2 extends Application{
         private AudioProcessor as=new AudioProcessor();
         private String inline;
         private String outline;
-        private int frameSize ;
-        private int sampleRate;
+        private int frameSize = 1024;
+        private int sampleRate = 44100;
         private ThreadHandler tHand= new ThreadHandler();
         SignalView chart1 = new SignalView(new NumberAxis(),new NumberAxis("s",-1.,1.,0.1));
         VuMeter vu =new VuMeter(800,800);
@@ -102,12 +102,12 @@ public class Main2 extends Application{
             tb.getItems().add(new Separator());
 
             /**text field */
-            TextField framesize =new TextField("");
+            TextField framesize =new TextField("1024");
             tb.getItems().add(new Label("framesize"));
             tb.getItems().add(framesize);
             tb.getItems().add(new Separator());
 
-            TextField samplerate =new TextField("");
+            TextField samplerate =new TextField("44100");
             tb.getItems().add(new Label("samplerate"));
             tb.getItems().add(samplerate);
             tb.getItems().add(new Separator());

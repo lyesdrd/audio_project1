@@ -5,15 +5,18 @@ import javax.sound.sampled.*;
 /** A container for an audio signal backed by a double buffer so as to allow floating point calculation
  * for signal processing and avoid saturation effects. Samples are 16 bit wide in this implementation. */
  public class AudioSignal {
+    private double[] sampleBuffer; // floating point representation of audio samples
+    private double dBlevel=0; // current signal level
 
-        private double[] sampleBuffer; // floating point representation of audio samples
 
+
+
+    public void setSampleBuffer(double[] sampleBuffer) {
+        this.sampleBuffer = sampleBuffer;
+    }
     public double getdBlevel() {
         return dBlevel;
     }
-
-    private double dBlevel=0; // current signal level
-
 
 
 
@@ -23,8 +26,6 @@ import javax.sound.sampled.*;
                 System.out.println(sampleBuffer[i]);
             }
         }
-
-
         public double[] getSampleBuffer() {
             return sampleBuffer;
         }

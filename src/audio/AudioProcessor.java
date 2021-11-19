@@ -7,9 +7,19 @@ import javax.sound.sampled.TargetDataLine;
 public class AudioProcessor implements Runnable {
 
          private AudioSignal inputSignal, outputSignal;
+         private double[] echo;
          private TargetDataLine audioInput;
          private SourceDataLine audioOutput;
         private boolean isThreadRunning; // makes it possible to "terminate" thread
+
+    public double[] add(double[] a, double[] b) {
+        for (int i = 0;(i < a.length); i++) {
+            a[i]+=0.2*b[i];
+        }
+        return a;
+    }
+
+
 
     public AudioSignal getInputSignal() {
         return inputSignal;
@@ -49,11 +59,12 @@ public class AudioProcessor implements Runnable {
          @Override
          public void run() {
                 isThreadRunning = true;
+                echo= inputSignal.getSampleBuffer();
                 while (isThreadRunning) {
                     inputSignal.recordFrom(audioInput);
-
+                   // inputSignal.setSampleBuffer(add(inputSignal.getSampleBuffer() , echo));
                     outputSignal.setFrom(inputSignal);
-
+                    echo= inputSignal.getSampleBuffer();
                     outputSignal.playTo(audioOutput);
              }
          }

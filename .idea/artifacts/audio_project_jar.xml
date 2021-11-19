@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact name="audio_project:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/audio_project_jar</output-path>
+    <root id="root">
+      <element id="archive" name="audio_project.jar">
+        <element id="module-output" name="audio_project" />
+      </element>
+      <element id="library" level="project" name="lib" />
+    </root>
+  </artifact>
+</component>
